@@ -9,70 +9,84 @@
         a{
             color: black;
         }
-        .deliver-time > p,input{
-            display: inline;
-            font-size:20px;
-        }
-        .deliver-time{
-            width: 400px;
-            display: block;
+        table{
             margin:50px auto;
-        }
-        .deliver-buttons{
-            width: 500px;
-            display: flex;
-            margin:50px auto;
-            justify-content : space-between;
-        }
-        .Add-button, .Delete-button{
-            width:150px;
-            height:30px;
-        }
-        .Upload-button{
-            width:150px;
-            height:50px;
-            font-size:20px;
-            position: fixed;
-            top:80%;
-            left: 50%;
-            transform: translate(-50%,100%);
+            width:80vw;
         }
     </style>
 </head>
 <body>
+    <?php
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "projectschema";
+        
+    // 创建连接
+    $conn = mysqli_connect($servername, $username, $password, $dbname);
+    // 检查连接
+    if (!$conn) {
+        die("连接失败: " . mysqli_connect_error());
+    }
+
+    $sql = "SELECT companyName, productName, productType, productEAN, productQuantity, productShelfLife,deliveryTime FROM deliverproduct";
+    $result = mysqli_query($conn, $sql);
+    $productTypeResult = mysqli_query($conn, "SELECT idProductType, productTypeName FROM producttype");
+    $productTypeResult2 = mysqli_query($conn, "SELECT idProductType, productTypeName FROM producttype");
+    ?>
     <div>
         <a href="./Index.html">👈Back to menu</a>
     </div>
-    <div class="deliver-time">
-        <p>Time of next deliver: </p>
-        <input type="date" name="deliver-date" value='<?= date('Y-m-d');?>' min="<?= date('Y-m-d');?>" />
-    </div>
-    <div id="product-list">
+    <table>
+        <tr>
+            <th>Company name</th>
+            <th>Product name</th>
+            <th>Product type</th>
+            <th>Product EAN number</th>
+            <th>Product quantity</th>
+            <th>Product shelf life</th>
+            <th>Delivery time</th>
+            <th></th>
+        </tr>
+        <?php
+        while($row = mysqli_fetch_assoc($result)) { ?>
+            <tr>
+                <td><?= $row["companyName"] ?></td>
+                <td><?= $row["productName"] ?></td>
+                <td><?php while($PTrow = mysqli_fetch_assoc($productTypeResult)) {
+                    if ($PTrow["idProductType"] == $row["productType"]) {
+                        echo $PTrow["productTypeName"];
+                    }
+                } ?></td>
+                <td><?= $row["productEAN"]; ?></td>
+                <td><?= $row["productQuantity"]; ?></td>
+                <td><?= $row["productShelfLife"]; ?></td>
+                <td><?= $row["deliveryTime"]; ?></td>
+                <td><button>Delete</button></td>
+            </tr>
+        <?php ;} ?>
 
-    </div>
-    <div class="deliver-buttons">
-        <button class="Add-button" onclick="AddProject()">+ Add a product</button>
-        <button class="Delete-button" onclick="DeleteProject()">- Delete a product</button>
-    </div>
-    <button class="Upload-button">Submit</button>
+        <tr>
+            <td><input type="text"></td>
+            <td><input type="text"></td>
+            <td>
+                <select>
+                    <?php while($PTrow2 = mysqli_fetch_assoc($productTypeResult2)) { ?>
+                        <option value ="<?= $PTrow2["idProductType"]; ?>"><?= $PTrow2["productTypeName"]; ?></option>
+                    <?php } ?>
+                </select>
+            </td>
+            <td><input type="text"></td>
+            <td><input type="text"></td>
+            <td><input type="date" value='<?= date('Y-m-d');?>' min="<?= date('Y-m-d');?>" ></td>
+            <td><input type="date" value='<?= date('Y-m-d');?>' min="<?= date('Y-m-d');?>" ></td>
+            <td><button onclick=submit()>Submit</button></td>
+        </tr>
+    </table>
 </body>
 <script>
-    function AddProject(){
-        //A big div
-        let div = document.createElement("div");
-        let place = document.querySelector("#product-list");
-        place.appendChild(div);
-        let divEl = document.querySelector("#product-list").lastChild;
-        divEl.classList.add("product");
-        //Product Name
-        let span = document.createElement("span");
-        let t = document.createTextNode("Product Name");
-        span.appendChild(t);
-        divEl.appendChild(span);
-        //Product Name input
-        let input = document.createElement("input");
-        divEl.appendChild(input);
-
+    submit(){
+        
     }
 </script>
 </html>
