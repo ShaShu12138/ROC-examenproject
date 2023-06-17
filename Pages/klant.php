@@ -17,6 +17,7 @@
         }
         th ,td{
             padding: 8px;
+            text-align: center;
         }
         .project-items {
             background-color: #009879;
@@ -54,37 +55,40 @@
         }
     </style>
 </head>
+<?php
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "projectschema";
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    if ($conn->connect_error) {
+        die("You DB connection has been failed!: " . $conn->connect_error);
+    }
+?>
 <body>
     <div>
         <a href="./Index.html">👈Back to menu</a>
     </div>
-      <table class="project-container">
-        <thead>
-          <tr class="project-items">
-            <td>Project name</td>
-            <td>Project type</td>
-            <td>EAN-nummer</td>
-            <td>Hoeveelheid</td>
-            <td>Houdbaarheid</td>
-          </tr>
-        </thead>
-        <tbody class="project-inhoud">
-        <tr class="projects">
-            <td>xixixi</td>
-            <td>hahahahha</td>
-            <td>EAN 439028493</td>
-            <td>xixixi</td>
-            <td>hahahahha</td>
-        </tr>
-        <tr class="projects">
-            <td>xixixi</td>
-            <td>xixixi</td>
-            <td>hahahahha</td>
-            <td>hahahahha</td>
-            <td>EAN 439028493</td>
-        </tr>
-        
-        </tbody>
-      </table>
+    <?php
+    $sql = "SELECT productName, productType, productEAN, productQuantity, productShelfLife FROM deliverproduct";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        echo "<table class='project-container'><tr class='project-items'><th>Project Naam</th><th>Type</th><th>EAN Nummer</th><th>Product Hoeveelheid</th><th>Shelf Life</th></tr>";
+
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr class='projects'><td>" . $row["productName"] . "</td><td>" . $row["productType"] . "</td><td>" . $row["productEAN"] . "</td><td>" . $row["productQuantity"] . "</td><td>" . $row["productShelfLife"] . "</td></tr>";
+        }
+    
+        echo "</table>";
+    } else {
+        echo "Kan niks vinden.";
+    }
+
+    $conn->close();
+    ?>
+
 </body>
 </html>
