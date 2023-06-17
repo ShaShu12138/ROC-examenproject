@@ -5,8 +5,86 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .project-container{
+            border-collapse: collapse;
+            width: 90%;
+            border-collapse: collapse;
+            margin: 85px;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+        th ,td{
+            padding: 8px;
+        }
+        .project-items {
+            background-color: #009879;
+            color: #ffffff;
+        }
+
+        .project-inhoud  .projects {
+        border-bottom: 1px solid #dddddd;
+        }
+        .project-inhoud .projects:nth-of-type(even) {
+        background-color: #f3f3f3;
+        }
+
+        .project-inhoud  .projects:last-of-type {
+        border-bottom: 2px solid #009879;
+        }
+
+        .project-inhoud .projects.active-row {
+        font-weight: bold;
+        color: #009879;
+        }
+
+        .index-link > a{
+            display: block;
+            color: black;
+            /*text-decoration:none;*/
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
+        .header > p{
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%,-60%);
+            font-size: 400px;
+        }
+    </style>
 </head>
 <body>
-    
+    <div>
+        <a href="./Index.html">👈Back to menu</a>
+    </div>
+      <table class="project-container">
+        <thead>
+          <tr class="project-items">
+            <td>Project name</td>
+            <td>Project type</td>
+            <td>EAN-nummer</td>
+            <td>Hoeveelheid</td>
+            <td>Houdbaarheid</td>
+          </tr>
+        </thead>
+        <tbody class="project-inhoud">
+        <tr class="projects">
+            <td>xixixi</td>
+            <td>hahahahha</td>
+            <td>EAN 439028493</td>
+            <td>xixixi</td>
+            <td>hahahahha</td>
+        </tr>
+        <tr class="projects">
+            <td>xixixi</td>
+            <td>xixixi</td>
+            <td>hahahahha</td>
+            <td>hahahahha</td>
+            <td>EAN 439028493</td>
+        </tr>
+        
+        </tbody>
+      </table>
 </body>
 </html>
