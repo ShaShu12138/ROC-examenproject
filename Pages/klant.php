@@ -24,18 +24,18 @@
             color: #ffffff;
         }
 
-        .project-inhoud  .projects {
+        .project-inhoud  td {
         border-bottom: 1px solid #dddddd;
         }
-        .project-inhoud .projects:nth-of-type(even) {
+        .project-inhoud td:nth-of-type(even) {
         background-color: #f3f3f3;
         }
-
-        .project-inhoud  .projects:last-of-type {
+        /* 
+        .project-inhoud  td:last-of-type {
         border-bottom: 2px solid #009879;
-        }
+        } */
 
-        .project-inhoud .projects.active-row {
+        .project-inhoud td.active-row {
         font-weight: bold;
         color: #009879;
         }
@@ -72,14 +72,15 @@
         <a href="./Index.html">👈Back to menu</a>
     </div>
     <?php
-    $sql = "SELECT productName, productType, productEAN, productQuantity, productShelfLife FROM deliverproduct";
+    $sql = "SELECT productName, productType, productEAN, productQuantity, productShelfLife FROM packageproduct";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
         echo "<table class='project-container'><tr class='project-items'><th>Project Naam</th><th>Type</th><th>EAN Nummer</th><th>Product Hoeveelheid</th><th>Shelf Life</th></tr>";
 
         while ($row = $result->fetch_assoc()) {
-            echo "<tr class='projects'><td>" . $row["productName"] . "</td><td>" . $row["productType"] . "</td><td>" . $row["productEAN"] . "</td><td>" . $row["productQuantity"] . "</td><td>" . $row["productShelfLife"] . "</td></tr>";
+            $type = getTypeText($row["productType"]);
+            echo "<tr class='project-inhoud'><td>" . $row["productName"] . "</td><td>" . $type . "</td><td>" . $row["productEAN"] . "</td><td>" . $row["productQuantity"] . "</td><td>" . $row["productShelfLife"] . "</td></tr>";
         }
     
         echo "</table>";
@@ -89,6 +90,32 @@
 
     $conn->close();
     ?>
-
 </body>
+<?php
+    function getTypeText($type) {
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "projectschema";
+
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        if ($conn->connect_error) {
+            die("You DB connection has been failed!: " . $conn->connect_error);
+        }
+        $sql = "SELECT idProductType, productTypeName FROM producttype";
+        $productTypeResult = $conn->query($sql);
+
+        if ($productTypeResult->num_rows > 0) {
+            while ($PTrow = mysqli_fetch_assoc($productTypeResult)) {
+                if ($PTrow["idProductType"] == $type) {
+                    return $PTrow["productTypeName"];
+                }
+            }
+        }
+
+        return "Unknown";
+    }
+?>
+
 </html>
