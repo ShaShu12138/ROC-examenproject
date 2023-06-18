@@ -13,8 +13,6 @@
         table {
             margin:50px auto;
             width:80vw;
-        }
-        table {
             font-family: verdana,arial,sans-serif;
             font-size:11px;
             color:#333333;
