@@ -56,7 +56,7 @@ $productTypeResult = mysqli_query($conn, "SELECT idProductType, productTypeName 
     </nav>
     <div class="klant-header">
         <?php if($_COOKIE["CheckClient"] || $_COOKIE["CheckDate"]){ ?>
-        <div class="klant-header">
+        <div class="klant-zoek">
             <p>You are now checking for&ensp;</p>
             <p>
                 <?php
@@ -74,7 +74,7 @@ $productTypeResult = mysqli_query($conn, "SELECT idProductType, productTypeName 
             <button onclick="CleanUser()">Change client / Change date!</button>
         </div>
         <?php }else{ ?>
-        <div class="klant-header">
+        <div class="klant-zoek">
             <p>Checking for&ensp;</p>
             <select name="clientSelect" id="clientSelect">
                 <option value="none" selected disabled hidden>Please chose an user</option>
@@ -93,7 +93,7 @@ $productTypeResult = mysqli_query($conn, "SELECT idProductType, productTypeName 
         <?php } ?>
     </div>
     <?php if($_COOKIE["CheckClient"] || $_COOKIE["CheckDate"]){ ?>
-        <div class="klant-inhoud">
+    <div class="klant-inhoud">
     <table class="klant-table">
         <tr>
             <th>Company name</th>

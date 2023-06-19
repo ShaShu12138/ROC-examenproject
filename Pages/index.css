@@ -357,21 +357,21 @@ background: linear-gradient(130deg, #eb77e2, #bf2121);
     width: 45%;
     margin: 0 0 0 auto;
 }
-.header{
-    display:flex;
-}
 .packageInput{
     width:70px;
 }
+.header{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 1%;
+    margin: 5%;
+}
 /* klant table */
 .klant-body{
-            background-image: linear-gradient(to bottom right, #a0fbc5, #cbf999, #f5efa7, #f8d797, #f8b474, #fb8d35);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            overflow: hidden;
+    background-image:url("img/background.jpg");
 }
 .klant-header{
     display: flex;
@@ -379,11 +379,28 @@ background: linear-gradient(130deg, #eb77e2, #bf2121);
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 3%;
+    padding: 1%;
+    margin: 5%;
+    width: 35vw;
+    height: 10vh;
+    background-color: #fff5;
+    box-shadow: 0 8px 16px #0005;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    left: 25%;
+}
+.klant-zoek{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-family: verdana,arial,sans-serif;
 }
 .klant-table{
     font-family: verdana,arial,sans-serif;
-    font-size:11px;
+    font-size:15px;
     color:#333333;
     border-width: 1px;
     border-color: #666666;
@@ -394,24 +411,38 @@ background: linear-gradient(130deg, #eb77e2, #bf2121);
     padding: 8px;
     border-style: solid;
     border-color: #666666;
-    background-color: #dedede;
+    background-color: rgba(255, 255, 255, 0.511);
+    box-shadow: 0px 2px 3px 0px #0005;
 }
 .klant-table td{
     border-width: 1px;
     padding: 8px;
     border-style: solid;
     border-color: #666666;
-    background-color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.511);
+}
+.klant-table tr:nth-child(even) td{
+    background-color: #6c6b6b06;
 }
 .klant-table td:hover{
     background-color: #ffff66;
     transition: 0.2s;
 }
-.klant-inhoud,.klant-table{
-    width:80vw;
-    margin: 100px auto;
+.klant-inhoud{
+    background-color: #fff5;
+    box-shadow: 0 8px 16px #0005;
+    border-radius: 16px;
+    padding: 15px;
+    width: 70%;
+    height: 20%;
+    position: relative;
+    left: 13%;
+}
+.klant-table{
+    width:70vw;
+    margin: 30px auto;
 }
 .no-results {
     font-size: 40px;
     text-align: center;
-    }
+}
