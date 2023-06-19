@@ -1,0 +1,132 @@
+.index-link{
+    /*text-decoration:none;*/
+    margin-bottom: 5px;
+    margin-top: 5px;
+    display: table;
+    width: 100%;
+    padding: 5px;
+    background-color: #2f2f2f;
+    position: relative;
+}
+    /* transform: translate(-10%); */
+.index-link a{
+    position: relative;
+    width: 20%;
+    display: table-cell;
+    text-align: center;
+    color: #cfcdcd;
+    text-decoration: none;
+    font-family: Verdana, Tahoma, sans-serif;
+    font-weight: bold;
+    padding: 10px;
+    transition: 0.2s ease color;
+}
+.index-link a:before,
+.index-link a:after {
+content: "";
+position: absolute;
+border-radius: 50%;
+transform: scale(0);
+transition: 0.2s ease transform;
+}
+
+.index-link a:before {
+top: 0;
+left: 10px;
+width: 6px;
+height: 6px;
+}
+
+.index-link a:after {
+top: 5px;
+left: 18px;
+width: 4px;
+height: 4px;
+}
+
+.index-link a:nth-child(1):before {
+background-color: #f2e90b;
+}
+
+.index-link a:nth-child(1):after {
+background-color: #d93520;
+}
+
+.index-link a:nth-child(2):before {
+background-color: #0bf229;
+}
+
+.index-link a:nth-child(2):after {
+background-color: #20a4d9;
+}
+
+.index-link a:nth-child(3):before {
+background-color: #71b3ff;
+}
+
+.index-link a:nth-child(3):after {
+background-color: #7950cd;
+}
+.index-link a:nth-child(4):before {
+background-color: #aa71ff;
+}
+
+.index-link a:nth-child(4):after {
+background-color: #cd50ba;
+}
+.index-link a:nth-child(5):before {
+background-color: #eb77e2;
+}
+
+.index-link a:nth-child(5):after {
+background-color: #bf2121;
+}
+
+#indicator {
+position: absolute;
+left: 0%;
+bottom: 0;
+width: 20%;
+height: 5px;
+background-color: #ffefef;
+border-radius: 5px;
+transition: 0.2s ease left;
+}
+
+.index-link a:hover {
+color: #fff;
+}
+
+.index-link a:hover:before,
+.index-link a:hover:after {
+transform: scale(1);
+}
+
+.index-link a:nth-child(1):hover ~ #indicator {
+background: linear-gradient(130deg, #f2e90b, #d93520);
+}
+
+.index-link a:nth-child(2):hover ~ #indicator {
+left: 20%;
+background: linear-gradient(130deg, #0bf229, #20a4d9);
+}
+
+.index-link a:nth-child(3):hover ~ #indicator {
+left: 40%;
+background: linear-gradient(130deg, #71b3ff, #7950cd);
+}
+.index-link a:nth-child(4):hover ~ #indicator {
+left: 60%;
+background: linear-gradient(130deg, #aa71ff, #cd50ba);
+}
+.index-link a:nth-child(5):hover ~ #indicator {
+left: 80%;
+background: linear-gradient(130deg, #eb77e2, #bf2121);
+}
+.header > p{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,-60%);
+    font-size: 400px;
+}
+
