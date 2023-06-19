@@ -5,57 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vrijwilliger</title>
-    <style>
-        a{
-            color: black;
-            margin:0 200px 0 0;
-        }
-        table {
-            font-family: verdana,arial,sans-serif;
-            font-size:11px;
-            color:#333333;
-            border-width: 1px;
-            border-color: #666666;
-            border-collapse: collapse;
-        }
-        th {
-            border-width: 1px;
-            padding: 8px;
-            border-style: solid;
-            border-color: #666666;
-            background-color: #dedede;
-        }
-        td {
-            border-width: 1px;
-            padding: 8px;
-            border-style: solid;
-            border-color: #666666;
-            background-color: #ffffff;
-        }
-        td:hover{
-            background-color: #ffff66;
-            transition: 0.2s;
-        }
-        .inhoud{
-            width:95vw;
-            margin: 50px auto;
-            display: flex;
-        }
-        .container-left{
-            width:50%;
-            margin: 0;
-        }
-        .container-right{
-            width: 45%;
-            margin: 0 0 0 auto;
-        }
-        .header{
-            display:flex;
-        }
-        .packageInput{
-            width:70px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="index.css">
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
     <script>
         if(Cookies.get('PackageDate') == undefined){
@@ -130,8 +80,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+    <nav class="index-link">
+            <a href="./Index.html">Home</a>
+            <a href="./leverancier.php">Leverancier</a>
+            <a href="./magazijnmedewerker.php">Magazijnmedewerker</a>
+            <a href="./vrijwilliger.php">Vrijwilliger</a>
+            <a href="./klant.php">Klant</a>
+            <div id="indicator"></div>
+    </nav>
     <div class="header">
-        <a href="./Index.html">👈Back to menu</a>
         <?php if($_COOKIE["PackageClient"] || $_COOKIE["PackageDate"]){ ?>
         <div class="header">
             <p>You are now packing for&ensp;</p>
@@ -176,9 +133,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php } ?>
     </div>
     <?php if($_COOKIE["PackageClient"] || $_COOKIE["PackageDate"]){ ?>
-    <div class="inhoud" >
+    <div class="vrijwilliger-inhoud" >
         <div class="container-left">
-            <table>
+            <table class = "vrijwilliger-table">
                 <tr>
                     <th>Company name</th>
                     <th>Product name</th>
@@ -216,7 +173,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </table>
         </div>
         <div class="container-right">
-            <table>
+            <table  class = "vrijwilliger-table">
                 <tr>
                     <th>Company name</th>
                     <th>Product name</th>

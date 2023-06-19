@@ -4,50 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        a{
-            color: black;
-            margin:0 200px 0 0;
-        }
-        .header{
-            display:flex;
-        }
-        table {
-            font-family: verdana,arial,sans-serif;
-            font-size:11px;
-            color:#333333;
-            border-width: 1px;
-            border-color: #666666;
-            border-collapse: collapse;
-        }
-        th {
-            border-width: 1px;
-            padding: 8px;
-            border-style: solid;
-            border-color: #666666;
-            background-color: #dedede;
-        }
-        td {
-            border-width: 1px;
-            padding: 8px;
-            border-style: solid;
-            border-color: #666666;
-            background-color: #ffffff;
-        }
-        td:hover{
-            background-color: #ffff66;
-            transition: 0.2s;
-        }
-        .inhoud,table{
-            width:80vw;
-            margin: 100px auto;
-        }
-        .no-results {
-        font-size: 40px;
-        text-align: center;
-        }
-    </style>
+    <title>Klant</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
     <script>
         if(Cookies.get('CheckDate') == undefined){
@@ -87,10 +45,17 @@ $PackageResult = mysqli_query($conn, $PackageSQL);
 $productTypeResult = mysqli_query($conn, "SELECT idProductType, productTypeName FROM producttype");
 ?>
 <body>
-    <div class="header">
-        <a href="./Index.html">👈Back to menu</a>
+    <nav class="index-link">
+            <a href="./Index.html">Home</a>
+            <a href="./leverancier.php">Leverancier</a>
+            <a href="./magazijnmedewerker.php">Magazijnmedewerker</a>
+            <a href="./vrijwilliger.php">Vrijwilliger</a>
+            <a href="./klant.php">Klant</a>
+            <div id="indicator"></div>
+    </nav>
+    <div class="klant-header">
         <?php if($_COOKIE["CheckClient"] || $_COOKIE["CheckDate"]){ ?>
-        <div class="header">
+        <div class="klant-header">
             <p>You are now checking for&ensp;</p>
             <p>
                 <?php
@@ -108,7 +73,7 @@ $productTypeResult = mysqli_query($conn, "SELECT idProductType, productTypeName 
             <button onclick="CleanUser()">Change client / Change date!</button>
         </div>
         <?php }else{ ?>
-        <div class="header">
+        <div class="klant-header">
             <p>Checking for&ensp;</p>
             <select name="clientSelect" id="clientSelect">
                 <option value="none" selected disabled hidden>Please chose an user</option>
@@ -127,8 +92,8 @@ $productTypeResult = mysqli_query($conn, "SELECT idProductType, productTypeName 
         <?php } ?>
     </div>
     <?php if($_COOKIE["CheckClient"] || $_COOKIE["CheckDate"]){ ?>
-        <div class="inhoud">
-    <table>
+        <div class="klant-inhoud">
+    <table class="klant-table">
         <tr>
             <th>Company name</th>
             <th>Product name</th>

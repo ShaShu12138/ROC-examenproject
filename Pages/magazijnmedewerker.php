@@ -5,50 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Magazijnmedewerker</title>
-    <style>
-        a{
-            color: black;
-        }
-        table {
-            font-family: verdana,arial,sans-serif;
-            font-size:11px;
-            color:#333333;
-            border-width: 1px;
-            border-color: #666666;
-            border-collapse: collapse;
-        }
-        th {
-            border-width: 1px;
-            padding: 8px;
-            border-style: solid;
-            border-color: #666666;
-            background-color: #dedede;
-        }
-        td {
-            border-width: 1px;
-            padding: 8px;
-            border-style: solid;
-            border-color: #666666;
-            background-color: #ffffff;
-        }
-        td:hover{
-            background-color: #ffff66;
-            transition: 0.2s;
-        }
-        .inhoud{
-            width:95vw;
-            margin: 50px auto;
-            display: flex;
-        }
-        .container-left{
-            width:50%;
-            margin: 0;
-        }
-        .container-right{
-            width: 45%;
-            margin: 0 0 0 auto;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 <body>
 <?php
@@ -118,12 +75,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-    <div>
-        <a href="./Index.html">👈Back to menu</a>
-    </div>
+    <nav class="index-link">
+            <a href="./Index.html">Home</a>
+            <a href="./leverancier.php">Leverancier</a>
+            <a href="./magazijnmedewerker.php">Magazijnmedewerker</a>
+            <a href="./vrijwilliger.php">Vrijwilliger</a>
+            <a href="./klant.php">Klant</a>
+            <div id="indicator"></div>
+    </nav>
     <div class="inhoud">
         <div class="container-left">
-            <table>
+            <table class="magazijn-table">
                 <tr>
                     <th>Company name</th>
                     <th>Product name</th>
@@ -161,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </table>
         </div>
         <div class="container-right">
-            <table>
+            <table class="magazijn-table">
                 <tr>
                     <th>Company name</th>
                     <th>Product name</th>

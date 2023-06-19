@@ -5,40 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leverancier</title>
-    <style>
-        a{
-            color: black;
-        }
-
-        table {
-            margin:50px auto;
-            width:80vw;
-            font-family: verdana,arial,sans-serif;
-            font-size:11px;
-            color:#333333;
-            border-width: 1px;
-            border-color: #666666;
-            border-collapse: collapse;
-        }
-        th {
-            border-width: 1px;
-            padding: 8px;
-            border-style: solid;
-            border-color: #666666;
-            background-color: #dedede;
-        }
-        td {
-            border-width: 1px;
-            padding: 8px;
-            border-style: solid;
-            border-color: #666666;
-            background-color: #ffffff;
-        }
-        td:hover{
-            background-color: #ffff66;
-            transition: 0.2s;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 <body>
     <?php
@@ -98,10 +65,15 @@
         }
     }
     ?>
-    <div>
-        <a href="./Index.html">👈Back to menu</a>
-    </div>
-    <table>
+    <nav class="index-link">
+            <a href="./Index.html">Home</a>
+            <a href="./leverancier.php">Leverancier</a>
+            <a href="./magazijnmedewerker.php">Magazijnmedewerker</a>
+            <a href="./vrijwilliger.php">Vrijwilliger</a>
+            <a href="./klant.php">Klant</a>
+            <div id="indicator"></div>
+    </nav>
+    <table class="tableLever">
         <tr>
             <th>Company name</th>
             <th>Product name</th>

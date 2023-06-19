@@ -1,3 +1,4 @@
+/* navigatie bar  */
 .index-link{
     /*text-decoration:none;*/
     margin-bottom: 5px;
@@ -8,7 +9,7 @@
     background-color: #2f2f2f;
     position: relative;
 }
-    /* transform: translate(-10%); */
+
 .index-link a{
     position: relative;
     width: 20%;
@@ -123,10 +124,156 @@ background: linear-gradient(130deg, #aa71ff, #cd50ba);
 left: 80%;
 background: linear-gradient(130deg, #eb77e2, #bf2121);
 }
-.header > p{
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%,-60%);
-    font-size: 400px;
+/* table van leverancier pagina */
+.tableLever{
+        margin:50px auto;
+        width:80vw;
+        font-family: verdana,arial,sans-serif;
+        font-size:11px;
+        color:#333333;
+        border-width: 1px;
+        border-color: #666666;
+        border-collapse: collapse;
 }
-
+.tableLever th{
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #666666;
+    background-color: #dedede;
+}
+.tableLever td{
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #666666;
+    background-color: #ffffff;
+}
+.tableLever td:hover{
+    background-color: #ffff66;
+    transition: 0.2s;
+}
+/* table van magazijnmedewerker pagina */
+.magazijn-table{
+    font-family: verdana,arial,sans-serif;
+    font-size:11px;
+    color:#333333;
+    border-width: 1px;
+    border-color: #666666;
+    border-collapse: collapse;
+}
+.magazijn-table th{
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #666666;
+    background-color: #dedede;
+}
+.magazijn-table td{
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #666666;
+    background-color: #ffffff;
+}
+.magazijn-table td:hover{
+    background-color: #ffff66;
+    transition: 0.2s;
+}
+.inhoud{
+    width:95vw;
+    margin: 50px auto;
+    display: flex;
+}
+.container-left{
+    width:50%;
+    margin: 0;
+}
+.container-right{
+    width: 45%;
+    margin: 0 0 0 auto;
+}
+/* table van vrijwilliger */
+.vrijwilliger-table{
+    font-family: verdana,arial,sans-serif;
+    font-size:11px;
+    color:#333333;
+    border-width: 1px;
+    border-color: #666666;
+    border-collapse: collapse;
+}
+.vrijwilliger-table th{
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #666666;
+    background-color: #dedede;
+}
+.vrijwilliger-table td{
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #666666;
+    background-color: #ffffff;
+}
+.vrijwilliger-table td:hover{
+    background-color: #ffff66;
+    transition: 0.2s;
+}
+.vrijwilliger-inhoud{
+    width:95vw;
+    margin: 50px auto;
+    display: flex;
+}
+.vrijwilliger-inhoud .container-left{
+    width:50%;
+    margin: 0;
+}
+.vrijwilliger-inhoud .container-right{
+    width: 45%;
+    margin: 0 0 0 auto;
+}
+.header{
+    display:flex;
+}
+.packageInput{
+    width:70px;
+}
+/* klant table */
+.klant-header{
+    display:flex;
+}
+.klant-table{
+    font-family: verdana,arial,sans-serif;
+    font-size:11px;
+    color:#333333;
+    border-width: 1px;
+    border-color: #666666;
+    border-collapse: collapse;
+}
+.klant-table th{
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #666666;
+    background-color: #dedede;
+}
+.klant-table td{
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #666666;
+    background-color: #ffffff;
+}
+.klant-table td:hover{
+    background-color: #ffff66;
+    transition: 0.2s;
+}
+.klant-inhoud,.klant-table{
+    width:80vw;
+    margin: 100px auto;
+}
+.no-results {
+    font-size: 40px;
+    text-align: center;
+    }
