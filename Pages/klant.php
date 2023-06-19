@@ -6,116 +6,119 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        .project-container{
-            border-collapse: collapse;
-            width: 90%;
-            border-collapse: collapse;
-            margin: 85px;
-            font-size: 0.9em;
-            font-family: sans-serif;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-        }
-        th ,td{
-            padding: 8px;
-            text-align: center;
-        }
-        .project-items {
-            background-color: #009879;
-            color: #ffffff;
-        }
-
-        .project-inhoud  td {
-        border-bottom: 1px solid #dddddd;
-        }
-        .project-inhoud td:nth-of-type(even) {
-        background-color: #f3f3f3;
-        }
-        /* 
-        .project-inhoud  td:last-of-type {
-        border-bottom: 2px solid #009879;
-        } */
-
-        .project-inhoud td.active-row {
-        font-weight: bold;
-        color: #009879;
-        }
-
-        .index-link > a{
-            display: block;
+        a{
             color: black;
-            /*text-decoration:none;*/
-            margin-bottom: 5px;
-            margin-top: 5px;
+            margin:0 200px 0 0;
         }
-        .header > p{
-            position: absolute;
-            left: 50%;
-            transform: translate(-50%,-60%);
-            font-size: 400px;
-        }
+
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+    <script>
+        if(Cookies.get('CheckDate') == undefined){
+            Cookies.set('CheckDate', "0" , { expires: 1 });
+            location.reload();
+        }
+        if(Cookies.get('CheckClient') == undefined){
+            Cookies.set('CheckClient', "0" , { expires: 1 });
+            location.reload();
+        }
+        
+    </script>
 </head>
 <?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "projectschema";
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "projectschema";
+// 创建连接
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+// 检查连接
+if (!$conn) {
+    die("连接失败: " . mysqli_connect_error());
+}
 
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    if ($conn->connect_error) {
-        die("You DB connection has been failed!: " . $conn->connect_error);
+if($_COOKIE["CheckClient"] || $_COOKIE["CheckDate"]){
+    $CookieClient = $_COOKIE["CheckClient"];
+    $CookieDate = $_COOKIE["CheckDate"];
+    }else{
+    $CookieClient = "0";
+    $CookieDate = "0";
     }
 ?>
 <body>
-    <div>
+    <div class="header">
         <a href="./Index.html">👈Back to menu</a>
-    </div>
-    <?php
-    $sql = "SELECT productName, productType, productEAN, productQuantity, productShelfLife FROM packageproduct";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        echo "<table class='project-container'><tr class='project-items'><th>Project Naam</th><th>Type</th><th>EAN Nummer</th><th>Product Hoeveelheid</th><th>Shelf Life</th></tr>";
-
-        while ($row = $result->fetch_assoc()) {
-            $type = getTypeText($row["productType"]);
-            echo "<tr class='project-inhoud'><td>" . $row["productName"] . "</td><td>" . $type . "</td><td>" . $row["productEAN"] . "</td><td>" . $row["productQuantity"] . "</td><td>" . $row["productShelfLife"] . "</td></tr>";
-        }
-    
-        echo "</table>";
-    } else {
-        echo "Kan niks vinden.";
-    }
-
-    $conn->close();
-    ?>
-</body>
-<?php
-    function getTypeText($type) {
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "projectschema";
-
-        $conn = new mysqli($servername, $username, $password, $dbname);
-
-        if ($conn->connect_error) {
-            die("You DB connection has been failed!: " . $conn->connect_error);
-        }
-        $sql = "SELECT idProductType, productTypeName FROM producttype";
-        $productTypeResult = $conn->query($sql);
-
-        if ($productTypeResult->num_rows > 0) {
-            while ($PTrow = mysqli_fetch_assoc($productTypeResult)) {
-                if ($PTrow["idProductType"] == $type) {
-                    return $PTrow["productTypeName"];
+        <?php if($_COOKIE["CheckClient"] || $_COOKIE["CheckDate"]){ ?>
+        <div class="header">
+            <p>You are now packing for&ensp;</p>
+            <p>
+                <?php
+                mysqli_data_seek($ClientResult, 0); // 重新定位结果集的指针到开头
+                while ($PTrow = mysqli_fetch_assoc($ClientResult)) {
+                    if ($PTrow["idClient"] == $_COOKIE["PackageClient"]) {
+                        echo $PTrow["contactName"];
+                        echo (" for ");
+                        echo $_COOKIE["PackageDate"];
+                        echo (". His/Her family have ");
+                        echo $PTrow["adultsNumber"];
+                        echo (" adults, ");
+                        echo $PTrow["kidsNumber"];
+                        echo (" Kids and ");
+                        echo $PTrow["babyNumber"];
+                        echo (" baby.&ensp;");
+                    }
                 }
-            }
-        }
+                ?>
+            </p>
+            <button onclick="CleanUser()">Change client!</button>
+        </div>
+        <?php }else{ ?>
+        <div class="header">
+            <p>Packing for&ensp;</p>
+            <select name="clientSelect" id="clientSelect">
+                <option value="none" selected disabled hidden>Please chose an user</option>
+                <?php
+                mysqli_data_seek($ClientResult, 0); // 重新定位结果集的指针到开头
+                while ($PTrow = mysqli_fetch_assoc($ClientResult)) {
+                    echo '<option value="' . $PTrow["idClient"] . '">' . $PTrow["contactName"] . '</option>';
+                }
+                ?>
+            </select>
+            <p>&ensp;for&ensp;</p>
+            <input type="date" id="friday-date" min="<?= date('Y-m-d'); ?>" onchange="validateFridayDate()">
+            <p>&ensp;(Only Friday!)&ensp;</p>
+            <button onclick="ChooseUser()">Package!</button>
+        </div>
+        <?php } ?>
+    </div>
+</body>
+<script>
+function validateFridayDate() {
+    var inputDate = document.getElementById("friday-date").value;
+    var date = new Date(inputDate);
 
-        return "Unknown";
+    // 获取选择日期的星期几（0-6，0代表星期日，6代表星期六）
+    var dayOfWeek = date.getDay();  
+    // 检查是否选择的是周五（4代表星期五）
+    if (dayOfWeek !== 5) {
+      alert("You can only chose Friday!!");
+      document.getElementById("friday-date").value = "";
     }
-?>
+}
+function ChooseUser(){
+    var client = document.getElementById("clientSelect").value;
+    var date = document.getElementById("friday-date").value;
+    if(client != "none" && date){
+        Cookies.set('CheckDate', date, { expires: 1 });
+        Cookies.set('CheckClient', client, { expires: 1 });
+        location.reload();
+    }
+}
+function CleanUser(){
+    Cookies.set('CheckDate', "0" , { expires: 1 });
+    Cookies.set('CheckClient', "0" , { expires: 1 });
+    location.reload();
+}
+</script>
 
 </html>

@@ -57,34 +57,45 @@
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+    <script>
+        if(Cookies.get('PackageDate') == undefined){
+            Cookies.set('PackageDate', "0" , { expires: 1 });
+            location.reload();
+        }
+        if(Cookies.get('PackageClient') == undefined){
+            Cookies.set('PackageClient', "0" , { expires: 1 });
+            location.reload();
+        }
+        
+    </script>
 </head>
 <body>
 <?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "projectschema";
-        
-    // 创建连接
-    $conn = mysqli_connect($servername, $username, $password, $dbname);
-    // 检查连接
-    if (!$conn) {
-        die("连接失败: " . mysqli_connect_error());
-    }
-    $productTypeResult = mysqli_query($conn, "SELECT idProductType, productTypeName FROM producttype");
-    $ClientSQL = "SELECT * FROM client";
-    $ClientResult = mysqli_query($conn, $ClientSQL);
-    $WarehouseSQL = "SELECT idDeliveredProduct, companyName, productName, productType, productEAN, productQuantity, productShelfLife FROM warehouseinventory WHERE productQuantity > 0 AND productShelfLife > CURDATE() ORDER BY productShelfLife";
-    $WarehouseResult = mysqli_query($conn, $WarehouseSQL);
-    if($_COOKIE["PackageClient"] || $_COOKIE["PackageDate"]){
-    $CookieClient = $_COOKIE["PackageClient"];
-    $CookieDate = $_COOKIE["PackageDate"];
-    }else{
-    $CookieClient = "0";
-    $CookieDate = "0";
-    }
-    $PackageSQL = "SELECT * FROM packageproduct WHERE idClient = '$CookieClient' AND pickupTime = '$CookieDate'" ;
-    $PackageResult = mysqli_query($conn, $PackageSQL);
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "projectschema";
+    
+// 创建连接
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+// 检查连接
+if (!$conn) {
+    die("连接失败: " . mysqli_connect_error());
+}
+$productTypeResult = mysqli_query($conn, "SELECT idProductType, productTypeName FROM producttype");
+$ClientSQL = "SELECT * FROM client";
+$ClientResult = mysqli_query($conn, $ClientSQL);
+$WarehouseSQL = "SELECT idDeliveredProduct, companyName, productName, productType, productEAN, productQuantity, productShelfLife FROM warehouseinventory WHERE productQuantity > 0 AND productShelfLife > CURDATE() ORDER BY productShelfLife";
+$WarehouseResult = mysqli_query($conn, $WarehouseSQL);
+if($_COOKIE["PackageClient"] || $_COOKIE["PackageDate"]){
+$CookieClient = $_COOKIE["PackageClient"];
+$CookieDate = $_COOKIE["PackageDate"];
+}else{
+$CookieClient = "0";
+$CookieDate = "0";
+}
+$PackageSQL = "SELECT * FROM packageproduct WHERE idClient = '$CookieClient' AND pickupTime = '$CookieDate'" ;
+$PackageResult = mysqli_query($conn, $PackageSQL);
 
     //Package按钮
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
