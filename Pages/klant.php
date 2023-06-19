@@ -10,7 +10,43 @@
             color: black;
             margin:0 200px 0 0;
         }
-
+        .header{
+            display:flex;
+        }
+        table {
+            font-family: verdana,arial,sans-serif;
+            font-size:11px;
+            color:#333333;
+            border-width: 1px;
+            border-color: #666666;
+            border-collapse: collapse;
+        }
+        th {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #dedede;
+        }
+        td {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #ffffff;
+        }
+        td:hover{
+            background-color: #ffff66;
+            transition: 0.2s;
+        }
+        .inhoud,table{
+            width:80vw;
+            margin: 100px auto;
+        }
+        .no-results {
+        font-size: 40px;
+        text-align: center;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
     <script>
@@ -43,38 +79,37 @@ if($_COOKIE["CheckClient"] || $_COOKIE["CheckDate"]){
     }else{
     $CookieClient = "0";
     $CookieDate = "0";
-    }
+}
+$ClientSQL = "SELECT * FROM client";
+$ClientResult = mysqli_query($conn, $ClientSQL);
+$PackageSQL = "SELECT * FROM packageproduct WHERE idClient = '$CookieClient' AND pickupTime = '$CookieDate'" ;
+$PackageResult = mysqli_query($conn, $PackageSQL);
+$productTypeResult = mysqli_query($conn, "SELECT idProductType, productTypeName FROM producttype");
 ?>
 <body>
     <div class="header">
         <a href="./Index.html">👈Back to menu</a>
         <?php if($_COOKIE["CheckClient"] || $_COOKIE["CheckDate"]){ ?>
         <div class="header">
-            <p>You are now packing for&ensp;</p>
+            <p>You are now checking for&ensp;</p>
             <p>
                 <?php
                 mysqli_data_seek($ClientResult, 0); // 重新定位结果集的指针到开头
                 while ($PTrow = mysqli_fetch_assoc($ClientResult)) {
-                    if ($PTrow["idClient"] == $_COOKIE["PackageClient"]) {
+                    if ($PTrow["idClient"] == $_COOKIE["CheckClient"]) {
                         echo $PTrow["contactName"];
                         echo (" for ");
-                        echo $_COOKIE["PackageDate"];
-                        echo (". His/Her family have ");
-                        echo $PTrow["adultsNumber"];
-                        echo (" adults, ");
-                        echo $PTrow["kidsNumber"];
-                        echo (" Kids and ");
-                        echo $PTrow["babyNumber"];
-                        echo (" baby.&ensp;");
+                        echo $_COOKIE["CheckDate"];
+                        echo (". &ensp; ");
                     }
                 }
                 ?>
             </p>
-            <button onclick="CleanUser()">Change client!</button>
+            <button onclick="CleanUser()">Change client / Change date!</button>
         </div>
         <?php }else{ ?>
         <div class="header">
-            <p>Packing for&ensp;</p>
+            <p>Checking for&ensp;</p>
             <select name="clientSelect" id="clientSelect">
                 <option value="none" selected disabled hidden>Please chose an user</option>
                 <?php
@@ -85,12 +120,49 @@ if($_COOKIE["CheckClient"] || $_COOKIE["CheckDate"]){
                 ?>
             </select>
             <p>&ensp;for&ensp;</p>
-            <input type="date" id="friday-date" min="<?= date('Y-m-d'); ?>" onchange="validateFridayDate()">
+            <input type="date" id="friday-date" onchange="validateFridayDate()">
             <p>&ensp;(Only Friday!)&ensp;</p>
-            <button onclick="ChooseUser()">Package!</button>
+            <button onclick="ChooseUser()">Check!</button>
         </div>
         <?php } ?>
     </div>
+    <?php if($_COOKIE["CheckClient"] || $_COOKIE["CheckDate"]){ ?>
+        <div class="inhoud">
+    <table>
+        <tr>
+            <th>Company name</th>
+            <th>Product name</th>
+            <th>Product type</th>
+            <th>Product EAN number</th>
+            <th>Product quantity</th>
+            <th>Product shelf life</th>
+        </tr>
+        <?php
+        if (mysqli_num_rows($PackageResult) === 0) {
+            // 结果集为空，显示 "无结果" 的消息
+            echo '<tr><td colspan="6" class="no-results">No Result!</td></tr>';
+        } else {
+            while($row = mysqli_fetch_assoc($PackageResult)) { ?>
+                <tr>
+                    <td><?= $row["companyName"] ?></td>
+                    <td><?= $row["productName"] ?></td>
+                    <td><?php 
+                    mysqli_data_seek($productTypeResult, 0); // 重新定位结果集的指针到开头
+                    while($PTrow = mysqli_fetch_assoc($productTypeResult)) {
+                        if ($PTrow["idProductType"] == $row["ProductType"]) {
+                            echo $PTrow["productTypeName"];
+                        }
+                    } ?></td>
+                    <td><?= $row["productEAN"]; ?></td>
+                    <td><?= $row["productQuantity"]; ?></td>
+                    <td><?= $row["productShelfLife"]; ?></td>
+                </tr>
+            <?php }
+        }
+        ?>
+    </table>
+</div>
+    <?php } ?>
 </body>
 <script>
 function validateFridayDate() {
