@@ -16,8 +16,25 @@
             <a href="./klant.php">Klant</a>
             <div id="indicator"></div>
         </nav>
-    <div class="header">
-
+    <div class="background">
+        <span>Deliever</span>
     </div>
+    <div class="text-inhoud">
+        <h1>Voed hoop, deel overvloed: Samen sterk tegen honger</h1>
+        <button class="button" role="button"><a href="./klant.php">Check your package</a></button>
+    </div>
+    <script>
+        const background = document.querySelector(".background")
+
+        document.addEventListener('scroll', () => {
+            const scrollY = window.scrollY
+
+            if (scrollY !== 0) {
+                background.style.backgroundPosition = `calc(50% + ${scrollY}px) calc(50% + ${scrollY}px)`
+            }else{
+                background.style.backgroundPosition = ''
+            }
+        })
+    </script>
 </body>
 </html>

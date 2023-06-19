@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Klant</title>
     <link rel="stylesheet" type="text/css" href="index.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
     <script>
         if(Cookies.get('CheckDate') == undefined){
@@ -44,7 +45,7 @@ $PackageSQL = "SELECT * FROM packageproduct WHERE idClient = '$CookieClient' AND
 $PackageResult = mysqli_query($conn, $PackageSQL);
 $productTypeResult = mysqli_query($conn, "SELECT idProductType, productTypeName FROM producttype");
 ?>
-<body>
+<body class="klant-body">
     <nav class="index-link">
             <a href="./Index.html">Home</a>
             <a href="./leverancier.php">Leverancier</a>
@@ -138,8 +139,8 @@ function validateFridayDate() {
     var dayOfWeek = date.getDay();  
     // 检查是否选择的是周五（4代表星期五）
     if (dayOfWeek !== 5) {
-      alert("You can only chose Friday!!");
-      document.getElementById("friday-date").value = "";
+        Swal.fire('You can only chose Friday!!');
+        document.getElementById("friday-date").value = "";
     }
 }
 function ChooseUser(){
