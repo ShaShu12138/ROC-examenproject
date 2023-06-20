@@ -7,7 +7,7 @@
     <title>Leverancier</title>
     <link rel="stylesheet" type="text/css" href="index.css">
 </head>
-<body>
+<body class="lever-body">
     <?php
     $servername = "localhost";
     $username = "root";
@@ -73,6 +73,7 @@
             <a href="./klant.php">Klant</a>
             <div id="indicator"></div>
     </nav>
+    <div class="lever-inhoud">
     <table class="tableLever">
         <tr>
             <th>Company name</th>
@@ -131,5 +132,6 @@
             </form>
         </tr>
     </table>
+    </div>
 </body>
 </html>
