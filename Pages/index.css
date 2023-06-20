@@ -8,7 +8,7 @@ body{
     background-position: 50% 50%;
     height: 145vh;
     width: 100%;
-    font: 900 28rem '';
+    font: 900 21.5rem '';
     line-height: 100vh;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -122,7 +122,7 @@ body{
     padding: 15px;
     width:100%;
     background: rgba(255,255,255,0.6);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(5px);
     position: absolute;
     z-index: 999;
     top: 0;
@@ -278,36 +278,16 @@ background: linear-gradient(130deg, #eb77e2, #bf2121);
     }
 
 /* table van magazijnmedewerker pagina */
-.magazijn-table{
-    font-family: verdana,arial,sans-serif;
-    font-size:11px;
-    color:#333333;
-    border-width: 1px;
-    border-color: #666666;
-    border-collapse: collapse;
-}
-.magazijn-table th{
-    border-width: 1px;
-    padding: 8px;
-    border-style: solid;
-    border-color: #666666;
-    background-color: #dedede;
-}
-.magazijn-table td{
-    border-width: 1px;
-    padding: 8px;
-    border-style: solid;
-    border-color: #666666;
-    background-color: #ffffff;
-}
-.magazijn-table td:hover{
-    background-color: #ffff66;
-    transition: 0.2s;
-}
 .inhoud{
+    margin: 5% auto;
     width:95vw;
-    margin: 50px auto;
+    height: auto;
     display: flex;
+    background-color: rgba(255, 255, 255, 0.388);
+    box-shadow: 0 8px 16px #0005;
+    backdrop-filter: blur(5px);
+    border-radius: 16px;
+    padding: 3% 2%;
 }
 .container-left{
     width:50%;
@@ -318,44 +298,19 @@ background: linear-gradient(130deg, #eb77e2, #bf2121);
     margin: 0 0 0 auto;
 }
 /* table van vrijwilliger */
-.vrijwilliger-table{
-    font-family: verdana,arial,sans-serif;
-    font-size:11px;
-    color:#333333;
-    border-width: 1px;
-    border-color: #666666;
-    border-collapse: collapse;
-}
-.vrijwilliger-table th{
-    border-width: 1px;
-    padding: 8px;
-    border-style: solid;
-    border-color: #666666;
-    background-color: #dedede;
-}
-.vrijwilliger-table td{
-    border-width: 1px;
-    padding: 8px;
-    border-style: solid;
-    border-color: #666666;
-    background-color: #ffffff;
-}
-.vrijwilliger-table td:hover{
-    background-color: #ffff66;
-    transition: 0.2s;
+.vrijwilliger-table , .magazijn-table{
+    width: 50%;
 }
 .vrijwilliger-inhoud{
     width:95vw;
+    height: auto;
     margin: 50px auto;
     display: flex;
-}
-.vrijwilliger-inhoud .container-left{
-    width:50%;
-    margin: 0;
-}
-.vrijwilliger-inhoud .container-right{
-    width: 45%;
-    margin: 0 0 0 auto;
+    background-color: rgba(255, 255, 255, 0.388);
+    box-shadow: 0 8px 16px #0005;
+    backdrop-filter: blur(5px);
+    border-radius: 16px;
+    padding: 3% 2%;
 }
 .packageInput{
     width:70px;
@@ -369,11 +324,11 @@ background: linear-gradient(130deg, #eb77e2, #bf2121);
     padding: 1%;
     margin: 5%;
 }
-/* klant table */
-.klant-body{
+/* klant table + vrijwilliger pagina + magazijn pagina*/
+.klant-body, .vrijwilliger-body, .magazijn-body{
     background-image:url("img/background.jpg");
 }
-.klant-header{
+.klant-header , .header{
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row;
@@ -398,7 +353,7 @@ background: linear-gradient(130deg, #eb77e2, #bf2121);
     align-items: center;
     font-family: verdana,arial,sans-serif;
 }
-.klant-table{
+.klant-table ,.vrijwilliger-table , .magazijn-table {
     font-family: verdana,arial,sans-serif;
     font-size:15px;
     color:#333333;
@@ -406,7 +361,7 @@ background: linear-gradient(130deg, #eb77e2, #bf2121);
     border-color: #666666;
     border-collapse: collapse;
 }
-.klant-table th{
+.klant-table th , .vrijwilliger-table th , .magazijn-table th{
     border-width: 1px;
     padding: 8px;
     border-style: solid;
@@ -414,23 +369,24 @@ background: linear-gradient(130deg, #eb77e2, #bf2121);
     background-color: rgba(255, 255, 255, 0.511);
     box-shadow: 0px 2px 3px 0px #0005;
 }
-.klant-table td{
+.klant-table td , .vrijwilliger-table td , .magazijn-table td{
     border-width: 1px;
     padding: 8px;
     border-style: solid;
     border-color: #666666;
     background-color: rgba(255, 255, 255, 0.511);
 }
-.klant-table tr:nth-child(even) td{
-    background-color: #6c6b6b06;
+.klant-table tr:nth-child(even) td , .vrijwilliger-table tr:nth-child(even) td , .magazijn-table tr:nth-child(even) td{
+    background-color: #ffffff21;
 }
-.klant-table td:hover{
-    background-color: #ffff66;
+.klant-table tr:nth-child(even) td:hover, .vrijwilliger-table tr:nth-child(even) td:hover , .magazijn-table tr:nth-child(even) td:hover{
+    background-color: rgba(253, 253, 253, 0.575);
     transition: 0.2s;
 }
 .klant-inhoud{
     background-color: #fff5;
     box-shadow: 0 8px 16px #0005;
+    backdrop-filter: blur(5px);
     border-radius: 16px;
     padding: 15px;
     width: 70%;

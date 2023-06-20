@@ -7,7 +7,7 @@
     <title>Magazijnmedewerker</title>
     <link rel="stylesheet" type="text/css" href="index.css">
 </head>
-<body>
+<body class="magazijn-body">
 <?php
 $servername = "localhost";
 $username = "root";

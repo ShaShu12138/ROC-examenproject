@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vrijwilliger</title>
     <link rel="stylesheet" type="text/css" href="index.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
     <script>
         if(Cookies.get('PackageDate') == undefined){
@@ -19,7 +20,7 @@
         
     </script>
 </head>
-<body>
+<body class="vrijwilliger-body">
 <?php
 $servername = "localhost";
 $username = "root";
@@ -90,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </nav>
     <div class="header">
         <?php if($_COOKIE["PackageClient"] || $_COOKIE["PackageDate"]){ ?>
-        <div class="header">
+        <div class="klant-zoek">
             <p>You are now packing for&ensp;</p>
             <p>
                 <?php
@@ -114,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button onclick="CleanUser()">Change client!</button>
         </div>
         <?php }else{ ?>
-        <div class="header">
+        <div class="klant-zoek">
             <p>Packing for&ensp;</p>
             <select name="clientSelect" id="clientSelect">
                 <option value="none" selected disabled hidden>Please chose an user</option>
@@ -213,7 +214,7 @@ function validateFridayDate() {
     var dayOfWeek = date.getDay();  
     // 检查是否选择的是周五（4代表星期五）
     if (dayOfWeek !== 5) {
-      alert("You can only chose Friday!!");
+      Swal.fire('You can only chose Friday!!');
       document.getElementById("friday-date").value = "";
     }
 }
