@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vrijwilliger</title>
-    <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" type="text/css" href="./CSS/index.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
     <script>
@@ -55,6 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $DeliveredProductID = $_POST["packageID"];
         $packageInput = $_POST["packageInput"];
 
+        if($packageInput){
         //更新仓库数据
         $WarehouseSQL = "SELECT companyName, productName, productType, productEAN, productQuantity, productShelfLife FROM warehouseinventory WHERE idDeliveredProduct = $DeliveredProductID";
         $WarehouseResult = mysqli_query($conn, $WarehouseSQL);
@@ -78,6 +79,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             echo "删除数据失败：" . mysqli_error($conn);
         }
+        }else{
+            echo("
+            <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Vul alstublieft alle velden in!',
+              })
+            </script>");
+        }
     }
 }
 ?>
@@ -92,12 +103,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="header">
         <?php if($_COOKIE["PackageClient"] || $_COOKIE["PackageDate"]){ ?>
         <div class="klant-zoek">
-            <p>You are now packing for&ensp;</p>
             <p>
                 <?php
                 mysqli_data_seek($ClientResult, 0); // 重新定位结果集的指针到开头
                 while ($PTrow = mysqli_fetch_assoc($ClientResult)) {
                     if ($PTrow["idClient"] == $_COOKIE["PackageClient"]) {
+                        echo ("You are now packing for ");
                         echo $PTrow["contactName"];
                         echo (" for ");
                         echo $_COOKIE["PackageDate"];
@@ -108,6 +119,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         echo (" Kids and ");
                         echo $PTrow["babyNumber"];
                         echo (" baby.&ensp;");
+                        echo ("<br>");
+                        echo ("Tips: ");
+                        echo $PTrow["information"];
                     }
                 }
                 ?>

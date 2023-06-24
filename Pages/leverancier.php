@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leverancier</title>
-    <link rel="stylesheet" type="text/css" href="index.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" type="text/css" href="./CSS/index.css">
 </head>
 <body class="lever-body">
     <?php
@@ -41,7 +42,7 @@
             } else {
                 echo "删除数据失败：" . mysqli_error($conn);
             }
-        } else {
+        } elseif(isset($_POST["submitId"])) {
             // 处理提交表单的数据
             $companyName = $_POST["companyName"];
             $productName = $_POST["productName"];
@@ -50,17 +51,34 @@
             $productQuantity = $_POST["productQuantity"];
             $productShelfLife = $_POST["productShelfLife"];
             $deliveryTime = $_POST["deliveryTime"];
+            if($companyName && $productName && $productType && $productEAN && $productQuantity && $productShelfLife && $deliveryTime){
+                // 执行插入数据的 SQL 语句
+                $insertSql = "INSERT INTO deliverproduct (companyName, productName, productType, productEAN, productQuantity, productShelfLife, deliveryTime) 
+                              VALUES ('$companyName', '$productName', '$productType', '$productEAN', '$productQuantity', '$productShelfLife', '$deliveryTime')";
 
-            // 执行插入数据的 SQL 语句
-            $insertSql = "INSERT INTO deliverproduct (companyName, productName, productType, productEAN, productQuantity, productShelfLife, deliveryTime) 
-                          VALUES ('$companyName', '$productName', '$productType', '$productEAN', '$productQuantity', '$productShelfLife', '$deliveryTime')";
-
-            if (mysqli_query($conn, $insertSql)) {
-                // 插入成功后重定向到当前页面，实现刷新效果
-                header("Location: " . $_SERVER["PHP_SELF"]);
-                exit();
-            } else {
-                echo "插入数据失败：" . mysqli_error($conn);
+                if (mysqli_query($conn, $insertSql)) {
+                    // 插入成功后重定向到当前页面，实现刷新效果
+                    header("Location: " . $_SERVER["PHP_SELF"]);
+                    exit();
+                } else {
+                    echo("
+                    <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error...',
+                        text: '".mysqli_error($conn)."',
+                      })
+                    </script>");
+                }
+            }else{
+                echo("
+                <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Vul alstublieft alle velden in!',
+                  })
+                </script>");
             }
         }
     }
@@ -124,11 +142,11 @@
                         ?>
                     </select>
                 </td>
-                <td><input type="text" name="productEAN"></td>
+                <td><input type="number" name="productEAN" maxlength="13" minlength="13"></td>
                 <td><input type="text" name="productQuantity"></td>
                 <td><input type="date" name="productShelfLife" value="<?= date('Y-m-d'); ?>" min="<?= date('Y-m-d'); ?>"></td>
                 <td><input type="date" name="deliveryTime" value="<?= date('Y-m-d'); ?>" min="<?= date('Y-m-d'); ?>"></td>
-                <td><button type="submit">Submit</button></td>
+                <td><button type="submit" name="submitId">Submit</button></td>
             </form>
         </tr>
     </table>
