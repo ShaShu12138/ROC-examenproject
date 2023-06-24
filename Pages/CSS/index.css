@@ -1,39 +1,27 @@
 body{
     margin: 0;
     overflow-x: hidden;
+    background-image: url("../IMG/background.jpg");
+    background-size:cover;
 }
-.background {
-    background-image: url("img/background.jpg");
-    background-size: cover;
-    background-position: 50% 50%;
-    height: 145vh;
-    width: 100%;
-    font: 900 21.5rem '';
-    line-height: 100vh;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    position: relative;
-    text-align: center;
-    overflow: hidden;
-}
-.background::before {
-    content: '';
-    background-size: cover;
-    background-image: inherit;
-    background-position: 50% 50%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    z-index: -99;
-} 
-.text-inhoud{
+h1{
+    color: rgba(198, 157, 86,0.9);
+    -webkit-text-stroke: 2px rgba(255, 255, 255,0.9);
+    font-size: 250px;
     width: 40%;
     height: 30%;
     position: absolute;
+    padding: 0;
+    top: 20%;
+    left: 35%;
+    transform: translate(-50%, -50%);
+}
+.text-inhoud{
+    width: 30%;
+    height: 20%;
+    position: absolute;
     padding: 3%;
-    top: 110%;
+    top: 80%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 99;
@@ -41,10 +29,12 @@ body{
     border-radius: 10%;
     box-shadow: 0 25px 50px rgba(0,0,0,0.2);
 }
-.text-inhoud h1{
+.text-inhoud h2{
+    margin: 0 0 5% 0;
     color: white;
     font-size: 3em;
     font-family:Times, serif;
+    text-align: center;
 }
 .button {
     all: unset;
@@ -270,7 +260,7 @@ background: linear-gradient(130deg, #eb77e2, #bf2121);
     box-shadow: 0 8px 16px #0005;
     backdrop-filter: blur(5px);
     border-radius: 16px;
-    padding: 3% 2%;
+    padding: 1% 1%;
 }
 .container-left{
     width:50%;
@@ -278,12 +268,10 @@ background: linear-gradient(130deg, #eb77e2, #bf2121);
 }
 .container-right{
     width: 45%;
-    margin: 0 0 0 auto;
+    margin: 0 0 0 60px;
 }
 /* table van vrijwilliger */
-.vrijwilliger-table , .magazijn-table{
-    width: 50%;
-}
+
 .vrijwilliger-inhoud{
     width:95vw;
     height: auto;
@@ -309,7 +297,7 @@ background: linear-gradient(130deg, #eb77e2, #bf2121);
 }
 /* klant table + vrijwilliger pagina + magazijn pagina + leverancier pagina*/
 .klant-body, .vrijwilliger-body, .magazijn-body , .lever-body{
-    background-image:url("img/background.jpg");
+    background-image:url("../IMG/background\ -Wit.jpg");
 }
 .klant-header , .header{
     display: flex;
@@ -362,8 +350,8 @@ background: linear-gradient(130deg, #eb77e2, #bf2121);
 .klant-table tr:nth-child(even) td , .vrijwilliger-table tr:nth-child(even) td , .magazijn-table tr:nth-child(even) td , .tableLever tr:nth-child(even) td{
     background-color: #ffffff21;
 }
-.klant-table tr:nth-child(even) td:hover, .vrijwilliger-table tr:nth-child(even) td:hover , .magazijn-table tr:nth-child(even) td:hover , .tableLever tr:nth-child(even) td:hover{
-    background-color: rgba(253, 253, 253, 0.575);
+.klant-table tr td:hover, .vrijwilliger-table tr td:hover , .magazijn-table tr td:hover , .tableLever tr td:hover{
+    background-color: rgba(255, 255, 0,0.6);
     transition: 0.2s;
 }
 .klant-inhoud{
