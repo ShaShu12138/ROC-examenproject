@@ -25,9 +25,9 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "projectschema";
-// 创建连接
+// verbinding maken
 $conn = mysqli_connect($servername, $username, $password, $dbname);
-// 检查连接
+// controleer verbinding
 if (!$conn) {
     die("连接失败: " . mysqli_connect_error());
 }
@@ -60,7 +60,7 @@ $productTypeResult = mysqli_query($conn, "SELECT idProductType, productTypeName 
             <p>You are now checking for&ensp;</p>
             <p>
                 <?php
-                mysqli_data_seek($ClientResult, 0); // 重新定位结果集的指针到开头
+                mysqli_data_seek($ClientResult, 0); //Reset de resultaatpointer naar het begin
                 while ($PTrow = mysqli_fetch_assoc($ClientResult)) {
                     if ($PTrow["idClient"] == $_COOKIE["CheckClient"]) {
                         echo $PTrow["contactName"];
@@ -79,7 +79,7 @@ $productTypeResult = mysqli_query($conn, "SELECT idProductType, productTypeName 
             <select name="clientSelect" id="clientSelect">
                 <option value="none" selected disabled hidden>Please chose an user</option>
                 <?php
-                mysqli_data_seek($ClientResult, 0); // 重新定位结果集的指针到开头
+                mysqli_data_seek($ClientResult, 0); // Reset de resultaatpointer naar het begin
                 while ($PTrow = mysqli_fetch_assoc($ClientResult)) {
                     echo '<option value="' . $PTrow["idClient"] . '">' . $PTrow["contactName"] . '</option>';
                 }
@@ -105,7 +105,7 @@ $productTypeResult = mysqli_query($conn, "SELECT idProductType, productTypeName 
         </tr>
         <?php
         if (mysqli_num_rows($PackageResult) === 0) {
-            // 结果集为空，显示 "无结果" 的消息
+            // De resultatenset is leeg met een bericht "Geen resultaten".
             echo '<tr><td colspan="6" class="no-results">No Result!</td></tr>';
         } else {
             while($row = mysqli_fetch_assoc($PackageResult)) { ?>
@@ -113,7 +113,7 @@ $productTypeResult = mysqli_query($conn, "SELECT idProductType, productTypeName 
                     <td><?= $row["companyName"] ?></td>
                     <td><?= $row["productName"] ?></td>
                     <td><?php 
-                    mysqli_data_seek($productTypeResult, 0); // 重新定位结果集的指针到开头
+                    mysqli_data_seek($productTypeResult, 0); // Reset de resultaatpointer naar het begin
                     while($PTrow = mysqli_fetch_assoc($productTypeResult)) {
                         if ($PTrow["idProductType"] == $row["ProductType"]) {
                             echo $PTrow["productTypeName"];
@@ -135,9 +135,9 @@ function validateFridayDate() {
     var inputDate = document.getElementById("friday-date").value;
     var date = new Date(inputDate);
 
-    // 获取选择日期的星期几（0-6，0代表星期日，6代表星期六）
+    // Krijg de dag van de week van de geselecteerde datum (0-6, 0 voor zondag, 6 voor zaterdag)
     var dayOfWeek = date.getDay();  
-    // 检查是否选择的是周五（4代表星期五）
+    // Controleer of vrijdag is geselecteerd (5 voor vrijdag)
     if (dayOfWeek !== 5) {
         Swal.fire('You can only chose Friday!!');
         document.getElementById("friday-date").value = "";
@@ -150,6 +150,14 @@ function ChooseUser(){
         Cookies.set('CheckDate', date, { expires: 1 });
         Cookies.set('CheckClient', client, { expires: 1 });
         location.reload();
+    }else{
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: 'U moet zowel de datum als de gebruiker invullen',
+          showConfirmButton: false,
+          timer: 1500
+        })
     }
 }
 function CleanUser(){

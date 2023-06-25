@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Magazijnmedewerker</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" type="text/css" href="./CSS/index.css">
 </head>
 <body class="magazijn-body">
@@ -14,30 +15,30 @@ $username = "root";
 $password = "";
 $dbname = "projectschema";
     
-// 创建连接
+// Maak verbinding
 $conn = mysqli_connect($servername, $username, $password, $dbname);
-// 检查连接
+// Controleer de verbinding
 if (!$conn) {
     die("连接失败: " . mysqli_connect_error());
 }
-//表中只展示未送达的项目
+//Alleen niet-geleverde producten weergeven
 $DeliverSQL = "SELECT idDeliverProduct, companyName, productName, productType, productEAN, productQuantity, productShelfLife, deliveryTime, delivered FROM deliverproduct WHERE delivered = 0 ORDER BY deliveryTime";
 $DeliverResult = mysqli_query($conn, $DeliverSQL);
 $productTypeResult = mysqli_query($conn, "SELECT idProductType, productTypeName FROM producttype");
 $WarehouseSQL = "SELECT idDeliveredProduct, companyName, productName, productType, productEAN, productQuantity, productShelfLife FROM warehouseinventory WHERE productQuantity > 0 ORDER BY productShelfLife";
 $WarehouseResult = mysqli_query($conn, $WarehouseSQL);
 
-//Delivered按钮
+//Delivered knop
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["deliveredId"])) {
-        // 获取提交的 deliveredId
+        // Verkrijg de ingediende 'deliveredId'
         $deliveredId = $_POST["deliveredId"];
 
-        // 更新 deliverproduct 表格的 delivered 字段
+        // Update de 'delivered' kolom van de 'deliverproduct' tabel
         $updateSQL = "UPDATE deliverproduct SET delivered = 1 WHERE idDeliverProduct = $deliveredId";
         mysqli_query($conn, $updateSQL);
 
-        // 获取相关信息
+        // Haal gerelateerde informatie op
         $selectSQL = "SELECT companyName, productName, productType, productEAN, productQuantity, productShelfLife FROM deliverproduct WHERE idDeliverProduct = $deliveredId";
         $selectedResult = mysqli_query($conn, $selectSQL);
         $selectedRow = mysqli_fetch_assoc($selectedResult);
@@ -48,28 +49,64 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $productQuantity = $selectedRow["productQuantity"];
         $productShelfLife = $selectedRow["productShelfLife"];
 
-        // 插入到 warehouseinventory 表格中
+        // Voeg toe aan de 'warehouseinventory' tabel
         $insertSQL = "INSERT INTO warehouseinventory (companyName, productName, productType, productEAN, productQuantity, productShelfLife) VALUES ('$companyName', '$productName', $productType, '$productEAN', $productQuantity, '$productShelfLife')";
         if (mysqli_query($conn, $insertSQL)) {
-            // 删除成功后重定向到当前页面，实现刷新效果
-            header("Location: " . $_SERVER["PHP_SELF"]);
-            exit();
+            echo("
+            <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: 'Het product is succesvol afgeleverd',
+                showConfirmButton: false,
+                timer: 1500
+              }).then(function() {
+                setTimeout(function() {
+                  window.location.href = '" . $_SERVER["PHP_SELF"] . "'; 
+                }, 50); // Delay 50ms
+              });
+            </script>");
         } else {
-            echo "删除数据失败：" . mysqli_error($conn);
+            echo("
+            <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error...',
+                text: '".mysqli_error($conn)."',
+              })
+            </script>");
         }
     }
     if (isset($_POST["deleteId"])) {
-        // 获取提交的 deleteId
+        // Verkrijg de ingediende 'deleteId'
         $deleteId = $_POST["deleteId"];
 
-        // 更新 deliverproduct 表格的 delivered 字段
+        // Update de 'productQuantity' kolom van de 'warehouseinventory' tabel
         $updateSQL = "UPDATE warehouseinventory SET productQuantity = 0 WHERE idDeliveredProduct = $deleteId";
         if (mysqli_query($conn, $updateSQL)) {
-            // 删除成功后重定向到当前页面，实现刷新效果
-            header("Location: " . $_SERVER["PHP_SELF"]);
-            exit();
+            echo("
+            <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: 'Vervallen producten zijn verwijderd',
+                showConfirmButton: false,
+                timer: 1500
+              }).then(function() {
+                setTimeout(function() {
+                  window.location.href = '" . $_SERVER["PHP_SELF"] . "'; 
+                }, 50); // Delay 50ms
+              });
+            </script>");
         } else {
-            echo "删除数据失败：" . mysqli_error($conn);
+            echo("
+            <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error...',
+                text: '".mysqli_error($conn)."',
+              })
+            </script>");
         }
 
     }
@@ -102,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <td><?= $row["companyName"] ?></td>
                         <td><?= $row["productName"] ?></td>
                         <td><?php 
-                        mysqli_data_seek($productTypeResult, 0); // 重新定位结果集的指针到开头
+                        mysqli_data_seek($productTypeResult, 0); // Reset de resultaatpointer naar het begin
                         while($PTrow = mysqli_fetch_assoc($productTypeResult)) {
                             if ($PTrow["idProductType"] == $row["productType"]) {
                                 echo $PTrow["productTypeName"];
@@ -139,7 +176,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <td><?= $row["companyName"] ?></td>
                         <td><?= $row["productName"] ?></td>
                         <td><?php 
-                        mysqli_data_seek($productTypeResult, 0); // 重新定位结果集的指针到开头
+                        mysqli_data_seek($productTypeResult, 0); // Reset de resultaatpointer naar het begin
                         while($PTrow = mysqli_fetch_assoc($productTypeResult)) {
                             if ($PTrow["idProductType"] == $row["productType"]) {
                                 echo $PTrow["productTypeName"];

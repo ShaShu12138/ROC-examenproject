@@ -15,35 +15,53 @@
     $password = "";
     $dbname = "projectschema";
         
-    // 创建连接
+    // Maak verbinding met de database
     $conn = mysqli_connect($servername, $username, $password, $dbname);
-    // 检查连接
+    // Check connection
     if (!$conn) {
-        die("连接失败: " . mysqli_connect_error());
+        die("Connection failed: " . mysqli_connect_error());
     }
-    //表中只展示未送达的项目
+    // Alleen niet-geleverde producten weergeven in de tabel
     $sql = "SELECT idDeliverProduct, companyName, productName, productType, productEAN, productQuantity, productShelfLife, deliveryTime FROM deliverproduct WHERE delivered = 0";
     $result = mysqli_query($conn, $sql);
     $productTypeResult = mysqli_query($conn, "SELECT idProductType, productTypeName FROM producttype");
 
-    // 处理表单提交
+    // Verwerk het ingediende formulier
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // 检查是否点击了删除按钮
+        // Controleer of de delete-knop is ingedrukt
         if (isset($_POST["deleteId"])) {
             $deleteId = $_POST["deleteId"];
             
-            // 执行删除操作的 SQL 语句
+            // SQL-query voor het verwijderen van de productinformatie
             $deleteSql = "DELETE FROM deliverproduct WHERE idDeliverProduct = $deleteId";
 
             if (mysqli_query($conn, $deleteSql)) {
-                // 删除成功后重定向到当前页面，实现刷新效果
-                header("Location: " . $_SERVER["PHP_SELF"]);
-                exit();
+                echo("
+                <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Productinformatie succesvol verwijderd',
+                    showConfirmButton: false,
+                    timer: 1500
+                  }).then(function() {
+                    setTimeout(function() {
+                      window.location.href = '" . $_SERVER["PHP_SELF"] . "'; 
+                    }, 50); // Delay 50ms
+                  });
+                </script>");
             } else {
-                echo "删除数据失败：" . mysqli_error($conn);
+                echo("
+                <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error...',
+                    text: '".mysqli_error($conn)."',
+                  })
+                </script>");
             }
         } elseif(isset($_POST["submitId"])) {
-            // 处理提交表单的数据
+            // Verwerk de ingediende formuliergegevens
             $companyName = $_POST["companyName"];
             $productName = $_POST["productName"];
             $productType = $_POST["productType"];
@@ -52,14 +70,25 @@
             $productShelfLife = $_POST["productShelfLife"];
             $deliveryTime = $_POST["deliveryTime"];
             if($companyName && $productName && $productType && $productEAN && $productQuantity && $productShelfLife && $deliveryTime){
-                // 执行插入数据的 SQL 语句
+                // SQL-query voor het invoegen van de gegevens
                 $insertSql = "INSERT INTO deliverproduct (companyName, productName, productType, productEAN, productQuantity, productShelfLife, deliveryTime) 
                               VALUES ('$companyName', '$productName', '$productType', '$productEAN', '$productQuantity', '$productShelfLife', '$deliveryTime')";
 
                 if (mysqli_query($conn, $insertSql)) {
-                    // 插入成功后重定向到当前页面，实现刷新效果
-                    header("Location: " . $_SERVER["PHP_SELF"]);
-                    exit();
+                    echo("
+                    <script>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Productinformatie succesvol ingevoerd',
+                        showConfirmButton: false,
+                        timer: 1500
+                      }).then(function() {
+                        setTimeout(function() {
+                          window.location.href = '" . $_SERVER["PHP_SELF"] . "'; 
+                        }, 50); // Delay 50ms
+                      });
+                    </script>");
                 } else {
                     echo("
                     <script>
@@ -75,8 +104,8 @@
                 <script>
                 Swal.fire({
                     icon: 'error',
-                    title: 'Oops...',
-                    text: 'Vul alstublieft alle velden in!',
+                    title: 'Error...',
+                    text: 'Gelieve alle gegevens in te vullen!',
                   })
                 </script>");
             }
@@ -109,7 +138,7 @@
                 <td><?= $row["companyName"] ?></td>
                 <td><?= $row["productName"] ?></td>
                 <td><?php 
-                mysqli_data_seek($productTypeResult, 0); // 重新定位结果集的指针到开头
+                mysqli_data_seek($productTypeResult, 0); // Reset de cursor van de resultaatset naar het begin
                 while($PTrow = mysqli_fetch_assoc($productTypeResult)) {
                     if ($PTrow["idProductType"] == $row["productType"]) {
                         echo $PTrow["productTypeName"];
@@ -135,7 +164,7 @@
                 <td>
                     <select name="productType">
                         <?php
-                        mysqli_data_seek($productTypeResult, 0); // 重新定位结果集的指针到开头
+                        mysqli_data_seek($productTypeResult, 0); // Reset de cursor van de resultaatset naar het begin
                         while ($PTrow = mysqli_fetch_assoc($productTypeResult)) {
                             echo '<option value="' . $PTrow["idProductType"] . '">' . $PTrow["productTypeName"] . '</option>';
                         }

@@ -27,9 +27,9 @@ $username = "root";
 $password = "";
 $dbname = "projectschema";
     
-// 创建连接
+// verbinding maken
 $conn = mysqli_connect($servername, $username, $password, $dbname);
-// 检查连接
+// controleer verbinding
 if (!$conn) {
     die("连接失败: " . mysqli_connect_error());
 }
@@ -48,15 +48,15 @@ $CookieDate = "0";
 $PackageSQL = "SELECT * FROM packageproduct WHERE idClient = '$CookieClient' AND pickupTime = '$CookieDate'" ;
 $PackageResult = mysqli_query($conn, $PackageSQL);
 
-    //Package按钮
+    //Package knop
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["packageID"])) {
-        // 获取所需的数据
+        //haal de vereiste gegevens op
         $DeliveredProductID = $_POST["packageID"];
         $packageInput = $_POST["packageInput"];
 
         if($packageInput){
-        //更新仓库数据
+        //update magazijngegevens
         $WarehouseSQL = "SELECT companyName, productName, productType, productEAN, productQuantity, productShelfLife FROM warehouseinventory WHERE idDeliveredProduct = $DeliveredProductID";
         $WarehouseResult = mysqli_query($conn, $WarehouseSQL);
         $WarehouseRow = mysqli_fetch_assoc($WarehouseResult);
@@ -70,14 +70,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $UpdateWarehouseSQL = "UPDATE warehouseinventory SET productQuantity = $NewQuantity WHERE idDeliveredProduct = $DeliveredProductID";
         mysqli_query($conn, $UpdateWarehouseSQL);
 
-        //上传包裹数据
+        //pakketgegevens uploaden
         $insertPackageSQL = "INSERT INTO packageproduct (idClient, companyName, productName, productType, productEAN, productQuantity, productShelfLife, pickupTime) VALUES ('$CookieClient', '$companyName', '$productName', $productType, '$productEAN', $packageInput, '$productShelfLife', '$CookieDate')";
         if (mysqli_query($conn, $insertPackageSQL)) {
-            // 删除成功后重定向到当前页面，实现刷新效果
-            header("Location: " . $_SERVER["PHP_SELF"]);
-            exit();
+            echo("
+            <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: 'De geselecteerde items zijn succesvol verpakt',
+                showConfirmButton: false,
+                timer: 1500
+              }).then(function() {
+                setTimeout(function() {
+                  window.location.href = '" . $_SERVER["PHP_SELF"] . "'; 
+                }, 50); // Delay 50ms
+              });
+            </script>");
         } else {
-            echo "删除数据失败：" . mysqli_error($conn);
+            echo("
+            <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error...',
+                text: '".mysqli_error($conn)."',
+              })
+            </script>");
         }
         }else{
             echo("
@@ -105,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="klant-zoek">
             <p>
                 <?php
-                mysqli_data_seek($ClientResult, 0); // 重新定位结果集的指针到开头
+                mysqli_data_seek($ClientResult, 0); // Reset de resultaatpointer naar het begin
                 while ($PTrow = mysqli_fetch_assoc($ClientResult)) {
                     if ($PTrow["idClient"] == $_COOKIE["PackageClient"]) {
                         echo ("You are now packing for ");
@@ -134,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <select name="clientSelect" id="clientSelect">
                 <option value="none" selected disabled hidden>Please chose an user</option>
                 <?php
-                mysqli_data_seek($ClientResult, 0); // 重新定位结果集的指针到开头
+                mysqli_data_seek($ClientResult, 0); // Reset de resultaatpointer naar het begin
                 while ($PTrow = mysqli_fetch_assoc($ClientResult)) {
                     echo '<option value="' . $PTrow["idClient"] . '">' . $PTrow["contactName"] . '</option>';
                 }
@@ -167,7 +185,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <td><?= $row["companyName"] ?></td>
                         <td><?= $row["productName"] ?></td>
                         <td><?php 
-                        mysqli_data_seek($productTypeResult, 0); // 重新定位结果集的指针到开头
+                        mysqli_data_seek($productTypeResult, 0); //Reset de resultaatpointer naar het begin
                         while($PTrow = mysqli_fetch_assoc($productTypeResult)) {
                             if ($PTrow["idProductType"] == $row["productType"]) {
                                 echo $PTrow["productTypeName"];
@@ -203,7 +221,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <td><?= $row["companyName"] ?></td>
                         <td><?= $row["productName"] ?></td>
                         <td><?php 
-                        mysqli_data_seek($productTypeResult, 0); // 重新定位结果集的指针到开头
+                        mysqli_data_seek($productTypeResult, 0); //Reset de resultaatpointer naar het begin
                         while($PTrow = mysqli_fetch_assoc($productTypeResult)) {
                             if ($PTrow["idProductType"] == $row["ProductType"]) {
                                 echo $PTrow["productTypeName"];
@@ -224,9 +242,9 @@ function validateFridayDate() {
     var inputDate = document.getElementById("friday-date").value;
     var date = new Date(inputDate);
 
-    // 获取选择日期的星期几（0-6，0代表星期日，6代表星期六）
+    // Krijg de dag van de week van de geselecteerde datum (0-6, 0 voor zondag, 6 voor zaterdag)
     var dayOfWeek = date.getDay();  
-    // 检查是否选择的是周五（4代表星期五）
+    // Controleer of vrijdag is geselecteerd (5 voor vrijdag)
     if (dayOfWeek !== 5) {
       Swal.fire('You can only chose Friday!!');
       document.getElementById("friday-date").value = "";
@@ -239,6 +257,14 @@ function ChooseUser(){
         Cookies.set('PackageDate', date, { expires: 1 });
         Cookies.set('PackageClient', client, { expires: 1 });
         location.reload();
+    }else{
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: 'U moet zowel de datum als de gebruiker invullen',
+          showConfirmButton: false,
+          timer: 1500
+        })
     }
 }
 function CleanUser(){
